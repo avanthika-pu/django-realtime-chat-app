@@ -98,7 +98,7 @@ else:
 # Auth Settings
 AUTH_USER_MODEL = "accounts.User"
 LOGIN_REDIRECT_URL = 'user_list'
-LOGOUT_REDIRECT_URL = 'login'
+LOGOUT_REDIRECT_URL = '/accounts/login/'
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
