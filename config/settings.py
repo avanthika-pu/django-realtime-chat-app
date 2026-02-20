@@ -21,7 +21,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'default-unsafe-key')
 DEBUG = 'RENDER' not in os.environ
 
 # Allow local connections and your future Render URL
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['django-realtime-chat-app-2.onrender.com', 'localhost', '127.0.0.1']
 
 # Application definition
 INSTALLED_APPS = [
