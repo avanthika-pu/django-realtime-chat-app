@@ -5,3 +5,5 @@ channels-redis
 dj-database-url
 whitenoise
 python-dotenv
+dj-database-url
+psycopg2-binary

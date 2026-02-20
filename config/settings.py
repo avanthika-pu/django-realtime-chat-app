@@ -73,7 +73,8 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Uses PostgreSQL on Render (via DATABASE_URL variable) and SQLite locally
 DATABASES = {
     'default': dj_database_url.config(
-        default=f'sqlite:///{BASE_DIR / "db.sqlite3"}',
+        # This reads the DATABASE_URL from your Render environment
+        default=os.environ.get('DATABASE_URL'),
         conn_max_age=600
     )
 }
