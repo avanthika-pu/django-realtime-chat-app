@@ -3,10 +3,7 @@
 set -o errexit
 
 pip install -r requirements.txt
-
 python manage.py collectstatic --no-input
 
-# This ensures the 'accounts' tables are created first
-python manage.py makemigrations accounts
-python manage.py makemigrations
-python manage.py migrate
+# This forces Django to apply migrations to the PostgreSQL database on Render
+python manage.py migrate --no-input
