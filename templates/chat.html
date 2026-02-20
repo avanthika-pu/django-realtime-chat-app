@@ -70,7 +70,6 @@
 
     chatLog.scrollTop = chatLog.scrollHeight;
 
-    // The logic is dictated by the server-side Consumer 'action' or 'type'
     chatSocket.onmessage = (e) => {
         const data = JSON.parse(e.data);
 

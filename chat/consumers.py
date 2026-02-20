@@ -17,8 +17,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
         await self.channel_layer.group_add(self.room_group_name, self.channel_name)
         await self.accept()
-
-        # LOGIC: When receiver connects, mark messages as read (Blue Ticks)
         await self.mark_messages_as_read()
         await self.channel_layer.group_send(
             self.room_group_name,
@@ -31,10 +29,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
         if action == 'message':
             message_text = data.get('message')
-            # Save to DB (Status: Sent / Single Tick)
             msg_obj = await self.save_message(message_text)
             
-            # Send to group
             await self.channel_layer.group_send(
                 self.room_group_name,
                 {
@@ -53,9 +49,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
             )
 
     async def message_handler(self, event):
-        # BUSINESS LOGIC: If I am the receiver and I get this event, 
-        # it means the message is DELIVERED to my screen.
-        # I notify the sender to show Double Grey Ticks.
         if event['sender'] != self.me.username:
             await self.channel_layer.group_send(
                 self.room_group_name,
@@ -64,7 +57,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
         await self.send(text_data=json.dumps(event))
 
     async def delivery_receipt_handler(self, event):
-        # Notify sender to show Double Grey Ticks
         await self.send(text_data=json.dumps({
             'action': 'delivered_confirmed',
             'message_id': event['message_id']

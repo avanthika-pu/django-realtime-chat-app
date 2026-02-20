@@ -53,7 +53,6 @@ def logout_view(request):
 def user_list(request):
     users = User.objects.exclude(id=request.user.id)
     for user in users:
-        # Count messages where this user is sender and YOU are receiver
         user.unread_count = Message.objects.filter(
             sender=user, 
             receiver=request.user, 
@@ -64,8 +63,6 @@ def user_list(request):
 @login_required
 def chat_view(request, username):
     other_user = get_object_or_404(User, username=username)
-    
-    # Mark messages as read when you enter the chat
     Message.objects.filter(sender=other_user, receiver=request.user, is_read=False).update(is_read=True)
     
     messages_list = Message.objects.filter(

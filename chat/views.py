@@ -27,15 +27,13 @@ def user_list(request):
 def chat_view(request, username):
     """Chat room with read-status update logic."""
     other_user = get_object_or_404(User, username=username)
-    
-    # Mark messages from the other user as read when I open this chat
+
     Message.objects.filter(
         sender=other_user, 
         receiver=request.user, 
         is_read=False
     ).update(is_read=True)
 
-    # Fetch history between both users
     chat_messages = Message.objects.filter(
         (Q(sender=request.user) & Q(receiver=other_user)) |
         (Q(sender=other_user) & Q(receiver=request.user))
