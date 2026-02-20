@@ -79,22 +79,23 @@ DATABASES = {
 
 # Channel Layers (WebSockets)
 # Uses Redis on Render and InMemory locally
-if 'REDIS_URL' in os.environ:
+REDIS_URL = os.environ.get('REDIS_URL')
+if REDIS_URL:
     CHANNEL_LAYERS = {
         "default": {
             "BACKEND": "channels_redis.core.RedisChannelLayer",
             "CONFIG": {
-                "hosts": [os.environ.get('REDIS_URL')],
+                "hosts": [REDIS_URL],
             },
         },
     }
 else:
+    # Use this locally so you don't need to install Redis on your laptop
     CHANNEL_LAYERS = {
         "default": {
             "BACKEND": "channels.layers.InMemoryChannelLayer",
-        }
+        },
     }
-
 # Auth Settings
 AUTH_USER_MODEL = "accounts.User"
 LOGIN_REDIRECT_URL = 'user_list'
